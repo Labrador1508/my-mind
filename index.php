@@ -156,6 +156,24 @@
       height: 24px;
     }
 
+    /* Menú Hamburguesa */
+    .hamburger-menu {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      width: 24px;
+      height: 18px;
+      cursor: pointer;
+    }
+
+    .hamburger-line {
+      width: 100%;
+      height: 3px;
+      background-color: #ffb300;
+      border-radius: 2px;
+      transition: all 0.3s;
+    }
+
     /* Dropdowns */
     .dropdown {
       position: absolute;
@@ -210,6 +228,48 @@
       text-align: center;
       font-size: 0.9em;
       margin-top: 5px;
+    }
+
+    /* Menú lateral */
+    .side-menu {
+      position: fixed;
+      top: 0;
+      right: -300px;
+      width: 300px;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.95);
+      backdrop-filter: blur(10px);
+      z-index: 1000;
+      transition: right 0.3s ease;
+      padding: 80px 20px 20px;
+      border-left: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .side-menu.active {
+      right: 0;
+    }
+
+    .side-menu a {
+      display: block;
+      color: #fff;
+      padding: 15px;
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      transition: all 0.3s;
+    }
+
+    .side-menu a:hover {
+      color: #ffb300;
+      padding-left: 25px;
+    }
+
+    .close-menu {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      color: #ffb300;
+      font-size: 24px;
+      cursor: pointer;
     }
 
     /* Secciones principales */
@@ -427,6 +487,22 @@
       fill: currentColor;
     }
 
+    /* Overlay para el menú */
+    .overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      display: none;
+    }
+
+    .overlay.active {
+      display: block;
+    }
+
     /* Responsive */
     @media (max-width: 1200px) {
       h1 {
@@ -531,20 +607,24 @@
         gap: 15px;
         padding: 12px;
       }
+      
+      .side-menu {
+        width: 250px;
+      }
     }
   </style>
 </head>
 <body>
   <header>
-  <div class="header-container">
-    <div class="logo-section">
-      <svg class="logo-icon" viewBox="0 0 24 24">
-        <path d="M20.71 4.63L19.37 3.29C19 2.9 18.35 2.9 17.96 3.29L9 12.25L11.75 15L20.71 6.04C21.1 5.65 21.1 5 20.71 4.63M7 14C5.34 14 4 15.34 4 17C4 18.31 2.84 19 2 19C2.92 20.22 4.5 21 6 21C8.21 21 10 19.21 10 17C10 15.34 8.66 14 7 14Z"/>
-      </svg>
-      <a href="index.php" style="text-decoration: none;">
-        <h1>Galer.ia</h1>
-      </a>
-    </div>
+    <div class="header-container">
+      <div class="logo-section">
+        <svg class="logo-icon" viewBox="0 0 24 24">
+          <path d="M20.71 4.63L19.37 3.29C19 2.9 18.35 2.9 17.96 3.29L9 12.25L11.75 15L20.71 6.04C21.1 5.65 21.1 5 20.71 4.63M7 14C5.34 14 4 15.34 4 17C4 18.31 2.84 19 2 19C2.92 20.22 4.5 21 6 21C8.21 21 10 19.21 10 17C10 15.34 8.66 14 7 14Z"/>
+        </svg>
+        <a href="index.php" style="text-decoration: none;">
+          <h1>Galer.ia</h1>
+        </a>
+      </div>
 
       <div class="search-container">
         <div class="search-bar">
@@ -553,19 +633,22 @@
       </div>
 
       <nav class="header-nav">
-  
-  <a href="explorar.php">Explorar</a>
-  <a href="artistas.php">Artistas</a>
-  <a href="tendencias.php">Tendencias</a>
-  <a href="galerias.php" class="active">Galerías</a>
-</nav>
+        <a href="explorar.php">Explorar</a>
+        <a href="artistas.php">Artistas</a>
+        <a href="tendencias.php">Tendencias</a>
+        <a href="galerias.php" class="active">Galerías</a>
+      </nav>
 
       <div class="user-controls">
         <button class="icon-btn" id="userBtn">
           <svg viewBox="0 0 24 24"><path d="M12 12c2.7 0 5-2.3 5-5s-2.3-5-5-5-5 2.3-5 5 2.3 5 5 5zm0 2c-3.3 0-10 1.7-10 5v3h20v-3c0-3.3-6.7-5-10-5z"/></svg>
         </button>
-        <button class="icon-btn" id="settingsBtn">
-          <svg viewBox="0 0 24 24"><path d="M19.14 12.94c.04-.31.06-.63.06-.94s-.02-.63-.06-.94l2.03-1.58a.5.5 0 0 0 .12-.64l-1.92-3.32a.5.5 0 0 0-.61-.22l-2.39.96a7.007 7.007 0 0 0-1.63-.94L14.5 2.5a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 0-.5.5l-.34 2.76c-.61.24-1.18.56-1.7.94l-2.39-.96a.5.5 0 0 0-.61.22L2.71 9.48a.5.5 0 0 0 .12.64l2.03 1.58c-.04.31-.06.63-.06.94s.02.63.06.94L2.83 14.58a.5.5 0 0 0-.12.64l1.92 3.32c.14.24.43.34.68.22l2.39-.96c.52.38 1.09.7 1.7.94l.34 2.76c.03.27.26.5.5.5h4c.24 0 .47-.23.5-.5l.34-2.76c.61-.24 1.18-.56 1.7-.94l2.39.96c.25.12.54.02.68-.22l1.92-3.32a.5.5 0 0 0-.12-.64l-2.03-1.58zM12 15.5a3.5 3.5 0 1 1 0-7 3.5 3.5 0 0 1 0 7z"/></svg>
+        <button class="icon-btn" id="menuBtn">
+          <div class="hamburger-menu">
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+            <div class="hamburger-line"></div>
+          </div>
         </button>
       </div>
     </div>
@@ -578,14 +661,20 @@
       <button>Ingresar</button>
       <a href="formulario.php">¿No tienes cuenta? Regístrate</a>
     </div>
-
-    <div class="dropdown" id="settingsDropdown">
-      <button>🎨 Preferencias de color</button>
-      <button>🌐 Idioma</button>
-      <button>🔔 Notificaciones</button>
-      <button>♿ Accesibilidad</button>
-    </div>
   </header>
+
+  <!-- Menú lateral -->
+  <div class="overlay" id="overlay"></div>
+  <div class="side-menu" id="sideMenu">
+    <span class="close-menu" id="closeMenu">×</span>
+    <a href="#">Configuración</a>
+    <a href="#">Preferencias</a>
+    <a href="#">Idioma</a>
+    <a href="#">Notificaciones</a>
+    <a href="#">Accesibilidad</a>
+    <a href="#">Ayuda</a>
+    <a href="#">Cerrar sesión</a>
+  </div>
 
   <div class="main-sections">
     <div class="section-container">
@@ -663,30 +752,43 @@
   <script>
     document.addEventListener('DOMContentLoaded', function() {
       const userBtn = document.getElementById('userBtn');
-      const settingsBtn = document.getElementById('settingsBtn');
+      const menuBtn = document.getElementById('menuBtn');
+      const closeMenu = document.getElementById('closeMenu');
+      const overlay = document.getElementById('overlay');
+      const sideMenu = document.getElementById('sideMenu');
       const userDropdown = document.getElementById('userDropdown');
-      const settingsDropdown = document.getElementById('settingsDropdown');
 
-      // Toggle dropdowns
-      [userBtn, settingsBtn].forEach(btn => {
-        btn.addEventListener('click', (e) => {
-          e.stopPropagation();
-          const isUser = btn.id === 'userBtn';
-          userDropdown.style.display = isUser && userDropdown.style.display !== 'flex' ? 'flex' : 'none';
-          settingsDropdown.style.display = !isUser && settingsDropdown.style.display !== 'flex' ? 'flex' : 'none';
-        });
+      // Toggle menú de usuario
+      userBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDropdown.style.display = userDropdown.style.display !== 'flex' ? 'flex' : 'none';
+      });
+
+      // Toggle menú lateral
+      menuBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        sideMenu.classList.add('active');
+        overlay.classList.add('active');
+      });
+
+      // Cerrar menú lateral
+      closeMenu.addEventListener('click', () => {
+        sideMenu.classList.remove('active');
+        overlay.classList.remove('active');
+      });
+
+      overlay.addEventListener('click', () => {
+        sideMenu.classList.remove('active');
+        overlay.classList.remove('active');
       });
 
       // Cerrar al hacer clic fuera
       document.addEventListener('click', () => {
         userDropdown.style.display = 'none';
-        settingsDropdown.style.display = 'none';
       });
 
       // Evitar que el clic en el dropdown lo cierre
-      [userDropdown, settingsDropdown].forEach(dropdown => {
-        dropdown.addEventListener('click', (e) => e.stopPropagation());
-      });
+      userDropdown.addEventListener('click', (e) => e.stopPropagation());
 
       // Efecto de carga suave
       setTimeout(() => {
