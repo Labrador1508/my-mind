@@ -1,7 +1,4 @@
-<h1>Sistema de registro</h1>
+<h1>GALER.IA</h1>
 -Estado del proyecto: En construccion.
 
-Para ejecutar el sistema debes poner:
-```npm install react```
-
-Sistema de registro 2 - test
+SISTEMA DE BASES DE DATOS EN DESARROLLO
